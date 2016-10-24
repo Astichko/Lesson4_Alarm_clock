@@ -4,11 +4,11 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MotionEvent;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -17,12 +17,14 @@ import android.widget.Toast;
 
 import com.example.boss.lesson4_alarm_clock.Alarm;
 import com.example.boss.lesson4_alarm_clock.R;
+import com.example.boss.lesson4_alarm_clock.adapter.DelItemAdapter;
+import com.example.boss.lesson4_alarm_clock.adapter.MainItemAdapter;
 import com.example.boss.lesson4_alarm_clock.provider.Constants;
 import com.example.boss.lesson4_alarm_clock.provider.DataAlarmProvider;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button btnNewAlarm;
     Button btnDeleteAlarm;
@@ -59,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
     }
 
-    public void findViewsAndSet(){
+    public void findViewsAndSet() {
         btnNewAlarm = (Button) findViewById(R.id.btnNewAlarm);
         btnDeleteAlarm = (Button) findViewById(R.id.btnDeleteAlarm);
         btnCancelMain = (Button) findViewById(R.id.btnCancelMain);
@@ -73,21 +75,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnDeleteChecked.setOnClickListener(this);
         btnCancelMain.setOnClickListener(this);
         selectedItems = new ArrayList<>();
+        listView.setItemsCanFocus(false);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (view.getId()) {
-                    case R.id.chTextView:
-                        saveCheckedItems(position);
-                        break;
-                    case R.id.itemText:
+                    case R.id.itemLinearLayout:
                         editItem(position);
+                        break;
+                    case R.id.itemDelLinearLayout:
+                        saveCheckedItems(position);
+                        CheckBox box = (CheckBox) view.findViewById(R.id.itemCheckBox);
+                        box.setChecked(!box.isChecked());
                         break;
                 }
             }
         });
     }
-
 
     @Override
     public void onClick(View v) {
@@ -97,10 +101,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intentCreateAlarm);
                 break;
             case R.id.btnDeleteAlarm:
-                if(!DataAlarmProvider.isEmpty()){
+                if (!DataAlarmProvider.isEmpty()) {
                     createCheckListView();
                     showAdditionalButtons();
-                }else{
+                } else {
                     Toast.makeText(MainActivity.this, "No Alarms", Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -119,52 +123,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        return false;
-    }
-
     public void saveCheckedItems(int position) {
-        if (selectedItems.contains((Integer) position)) {
+        if (selectedItems.contains(position)) {
             selectedItems.remove((Integer) position);
         } else {
-            selectedItems.add((Integer) position);
+            selectedItems.add(position);
         }
-    }
-
-    public static String getShortDayName(int day) {
-        String result = "";
-        switch (day) {
-            case 0:
-                result = "SU ";
-                break;
-            case 1:
-                result = "MO ";
-                break;
-            case 2:
-                result = "TU ";
-                break;
-            case 3:
-                result = "WE ";
-                break;
-            case 4:
-                result = "TH ";
-                break;
-            case 5:
-                result = "FR ";
-                break;
-            case 6:
-                result = "SA ";
-                break;
-        }
-        return result;
-
     }
 
     private void updateListView() {
         if (DataAlarmProvider.getArray() != null) {
-            String[] itemTextDisplay = getItemsTextToDisplay();
-            ListAdapter la = new ArrayAdapter<>(this, R.layout.item_list_view, itemTextDisplay);
+            ListAdapter la = new MainItemAdapter(this, R.layout.item_main_listview, DataAlarmProvider.getArray());
             listView = (ListView) findViewById(R.id.listView);
             if (listView != null) {
                 listView.setAdapter(la);
@@ -176,28 +145,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intentCreateAlarm = new Intent(MainActivity.this, CreateAlarmActivity.class);
         intentCreateAlarm.putExtra(Constants.POSITION, position);
         startActivity(intentCreateAlarm);
-    }
-
-    public String[] getItemsTextToDisplay() {
-        int size = DataAlarmProvider.getArray().size();
-        String[] itemTextDisplay = new String[size];
-        int timeAlarm;
-        for (int i = 0; i < size; i++) {
-            itemTextDisplay[i] = String.valueOf(DataAlarmProvider.getArray().get(i).hour)
-                    + " : " +
-                    (((timeAlarm = DataAlarmProvider.getArray().get(i).minutes) < Constants.TIME_DISPLAY) ? "0"
-                            + String.valueOf(timeAlarm) : String.valueOf(timeAlarm)) + " ";
-            if (DataAlarmProvider.getArray().get(i).isRepeated) {
-                for (int j = 0; j < Constants.DAYS; j++) {
-                    if (DataAlarmProvider.getArray().get(i).dayWeek[j]) {
-                        itemTextDisplay[i] += " " + getShortDayName(j);
-                    }
-                }
-            } else {
-                itemTextDisplay[i] += Constants.SINGLE_ALARM;
-            }
-        }
-        return itemTextDisplay;
     }
 
     public void showMainButtons() {
@@ -216,10 +163,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void deleteCheckedItems() {
         for (Integer i : selectedItems) {
-            DataAlarmProvider.getArray().set(i,null);
+            DataAlarmProvider.getArray().set(i, null);
         }
-        for(Alarm a: DataAlarmProvider.getArray()){
-            if (a == null){
+        for (Alarm a : DataAlarmProvider.getArray()) {
+            if (a == null) {
                 DataAlarmProvider.getArray().remove(a);
             }
         }
@@ -228,15 +175,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void createCheckListView() {
-        String[] itemTextDisplay = getItemsTextToDisplay();
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.item_check_delete, R.id.chTextView, itemTextDisplay);
-        listView = (ListView) findViewById(R.id.listView);
-        if (listView != null) {
-            listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        }
-        if (listView != null) {
-            listView.setAdapter(adapter);
-        }
+        ListAdapter la = new DelItemAdapter(getApplicationContext(), R.layout.item_del_listview, DataAlarmProvider.getArray());
+        listView.setAdapter(la);
     }
 
     public void showNoAlarmBlock() {

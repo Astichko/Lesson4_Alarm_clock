@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 public class MyService extends IntentService {
     Calendar calendar;
+    boolean isAnyAlarmOn;
     public boolean isFirstTimeAlignment = true;
 
     public MyService() {
@@ -21,8 +22,15 @@ public class MyService extends IntentService {
 
     public void onCreate() {
         super.onCreate();
+        isAnyAlarmOn = true;
         calendar = Calendar.getInstance();
         DataAlarmProvider.updateArray(this);
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        super.onStartCommand(intent, flags, startId);
+        return START_STICKY;
     }
 
     @Override
@@ -32,10 +40,14 @@ public class MyService extends IntentService {
 
     public void turnAlarm() {
         calendar = Calendar.getInstance();
-        while (!DataAlarmProvider.isEmpty()) {
+        while (true) {
+            isAnyAlarmOn = false;
             try {
                 timeAlignmentWait();
                 checkAlarmsAndRing();
+                if (!isAnyAlarmOn) {
+                    break;
+                }
                 TimeUnit.SECONDS.sleep(Constants.ONE_MINUTE);
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -51,6 +63,7 @@ public class MyService extends IntentService {
 
     @Override
     public void onDestroy() {
+
         super.onDestroy();
     }
 
@@ -72,20 +85,20 @@ public class MyService extends IntentService {
         int hourNow = calendar.get(Calendar.HOUR_OF_DAY);
         int minutesNow = calendar.get(Calendar.MINUTE);
         int dayOfWeekNow = calendar.get(Calendar.DAY_OF_WEEK) - 1;
-        int dayOfMonthNow = calendar.get(Calendar.DAY_OF_MONTH);
-        int monthNow = calendar.get(Calendar.MONTH);
-        int yearNow = calendar.get(Calendar.YEAR);
         for (Alarm a : DataAlarmProvider.getArray()) {
             if (a.isRepeated && a.dayWeek[dayOfWeekNow] && hourNow == a.hour && minutesNow == a.minutes) {
                 displayAlarm();
+                isAnyAlarmOn = true;
             } else {
-                if (hourNow == a.hour && minutesNow == a.minutes
-                        && dayOfMonthNow == a.dayOfMonth && monthNow == a.month && yearNow == a.year) {
+                if (a.isOn && hourNow == a.hour && minutesNow == a.minutes) {
                     displayAlarm();
-                    DataAlarmProvider.getArray().remove(a);
+                    a.isOn = false;
+                    DataAlarmProvider.saveArray(this);
                 }
+                if (a.isOn)
+                    isAnyAlarmOn = true;
+
             }
         }
-        DataAlarmProvider.saveArray(this);
     }
 }

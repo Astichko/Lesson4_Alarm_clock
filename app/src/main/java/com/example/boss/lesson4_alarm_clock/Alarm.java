@@ -4,6 +4,7 @@ package com.example.boss.lesson4_alarm_clock;
  * Created by BOSS on 09.10.2016.
  */
 public class Alarm {
+    public boolean isOn;
     public boolean isRepeated;
     public int year;
     public int month;

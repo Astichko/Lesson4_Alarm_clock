@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Lesson4_Alarm_clock-master.iml" filepath="$PROJECT_DIR$/Lesson4_Alarm_clock-master.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Lesson4_Alarm_clock2.iml" filepath="$PROJECT_DIR$/Lesson4_Alarm_clock2.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

@@ -6,6 +6,11 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorControlActivated">@color/colorBeige</item>
+        <!-- Inactive thumb color -->
+        <item name="colorSwitchThumbNormal">@color/colorDarkBeige</item>
+        <!-- Inactive track color(30% transparency) -->
+        <item name="android:colorForeground">@color/colorBeige</item>
     </style>
 
     <style name="AppTheme.ButtonDarkBeige" parent="Widget.AppCompat.Button.Colored">
@@ -17,5 +22,6 @@
         <item name="colorButtonNormal">@color/colorBeige</item>
         <item name="android:textColor">@color/colorBlack</item>
     </style>
+
 
 </resources>

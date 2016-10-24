@@ -60,6 +60,7 @@ public class CreateAlarmActivity extends AppCompatActivity implements View.OnCli
                 finish();
                 break;
             case R.id.btnCancel:
+                DataAlarmProvider.saveArray(this);
                 finish();
                 break;
         }
@@ -115,6 +116,7 @@ public class CreateAlarmActivity extends AppCompatActivity implements View.OnCli
         setDaysOfTheWeek(alarm);
         alarm.hour = hoursSet;
         alarm.minutes = minutesSet;
+        alarm.isOn = true;
         if (!alarm.isRepeated) {
             alarm.dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
             alarm.month = calendar.get(Calendar.MONTH);
@@ -131,7 +133,7 @@ public class CreateAlarmActivity extends AppCompatActivity implements View.OnCli
             DataAlarmProvider.getArray().add(alarm);
             DataAlarmProvider.saveArray(this);
         }
-        if (!isMyServiceRunning(MyService.class)) {
+        if (!isServiceRunning(MyService.class)) {
             startService(new Intent(this, MyService.class));
         }
     }
@@ -167,7 +169,7 @@ public class CreateAlarmActivity extends AppCompatActivity implements View.OnCli
         return true;
     }
 
-    public boolean isMyServiceRunning(Class<?> serviceClass) {
+    public boolean isServiceRunning(Class<?> serviceClass) {
         ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
             if (serviceClass.getName().equals(service.service.getClassName())) {

@@ -11,101 +11,117 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".activity.CreateAlarmActivity">
 
-    <LinearLayout
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView"
+        android:layout_marginBottom="50dp">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation = "vertical"
+            >
+
+            <TimePicker
+                android:id="@+id/timePicker"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="33dp" />
+
+            <TextView
+                android:id="@+id/repeatText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="@string/repeats"
+                android:textColor="@color/colorBeige"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/linearLayout2">
+
+                <Button
+                    android:id="@+id/btnMo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/mo"
+                    android:textSize="@dimen/text_size_12sp"
+                    android:theme="@style/AppTheme.ButtonBeige" />
+
+                <Button
+                    android:id="@+id/btnTu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/tu"
+                    android:textSize="@dimen/text_size_12sp"
+                    android:theme="@style/AppTheme.ButtonBeige" />
+
+                <Button
+                    android:id="@+id/btnWe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/we"
+                    android:textSize="@dimen/text_size_12sp"
+                    android:theme="@style/AppTheme.ButtonBeige" />
+
+                <Button
+                    android:id="@+id/btnTh"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/th"
+                    android:textSize="@dimen/text_size_12sp"
+                    android:theme="@style/AppTheme.ButtonBeige" />
+
+                <Button
+                    android:id="@+id/btnFr"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/fr"
+                    android:textSize="12sp"
+                    android:theme="@style/AppTheme.ButtonBeige" />
+
+                <Button
+                    android:id="@+id/btnSa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/sa"
+                    android:textSize="@dimen/text_size_12sp"
+                    android:theme="@style/AppTheme.ButtonBeige" />
+
+                <Button
+                    android:id="@+id/btnSu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/su"
+                    android:textSize="@dimen/text_size_12sp"
+                    android:theme="@style/AppTheme.ButtonBeige" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:id="@+id/linearLayout2"
-        android:layout_below="@+id/repeatText"
+        android:id="@+id/linearLayout3"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
-
-        <Button
-            android:id="@+id/btnMo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/mo"
-            android:textSize="@dimen/text_size_12sp"
-            android:theme="@style/AppTheme.ButtonBeige" />
-
-        <Button
-            android:id="@+id/btnTu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/tu"
-            android:textSize="@dimen/text_size_12sp"
-            android:theme="@style/AppTheme.ButtonBeige" />
-
-        <Button
-            android:id="@+id/btnWe"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/we"
-            android:textSize="@dimen/text_size_12sp"
-            android:theme="@style/AppTheme.ButtonBeige" />
-
-        <Button
-            android:id="@+id/btnTh"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/th"
-            android:textSize="@dimen/text_size_12sp"
-            android:theme="@style/AppTheme.ButtonBeige" />
-
-        <Button
-            android:id="@+id/btnFr"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/fr"
-            android:textSize="12sp"
-            android:theme="@style/AppTheme.ButtonBeige" />
-
-        <Button
-            android:id="@+id/btnSa"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/sa"
-            android:textSize="@dimen/text_size_12sp"
-            android:theme="@style/AppTheme.ButtonBeige" />
-
-        <Button
-            android:id="@+id/btnSu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/su"
-            android:textSize="@dimen/text_size_12sp"
-            android:theme="@style/AppTheme.ButtonBeige" />
-
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/repeatText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text="@string/repeats"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/repeatText"
-        android:layout_alignStart="@+id/repeatText"
-        android:id="@+id/linearLayout3">
 
         <Button
             android:id="@+id/btnCancel"
@@ -125,14 +141,5 @@
             android:text="@string/save"
             android:theme="@style/AppTheme.ButtonDarkBeige" />
     </LinearLayout>
-
-    <TimePicker
-        android:id="@+id/timePicker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="33dp"
-        android:layout_above="@+id/repeatText"
-        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
