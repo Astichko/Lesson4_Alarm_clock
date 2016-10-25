@@ -17,7 +17,7 @@ import com.example.boss.lesson4_alarm_clock.Alarm;
 import com.example.boss.lesson4_alarm_clock.R;
 import com.example.boss.lesson4_alarm_clock.provider.Constants;
 import com.example.boss.lesson4_alarm_clock.provider.DataAlarmProvider;
-import com.example.boss.lesson4_alarm_clock.service.MyService;
+import com.example.boss.lesson4_alarm_clock.service.AlarmService;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -61,8 +61,8 @@ public class MainItemAdapter extends ArrayAdapter<Alarm> {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 DataAlarmProvider.getArray().get(position).isOn = isChecked;
                 buttonView.setChecked(isChecked);
-                if (!isServiceRunning(context, MyService.class)) {
-                    context.startService(new Intent(context, MyService.class));
+                if (!isServiceRunning(context, AlarmService.class)) {
+                    context.startService(new Intent(context, AlarmService.class));
                 }
                     DataAlarmProvider.saveArray(context);
             }

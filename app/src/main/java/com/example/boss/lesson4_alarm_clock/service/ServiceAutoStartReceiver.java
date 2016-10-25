@@ -11,7 +11,7 @@ public class ServiceAutoStartReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Intent startServiceIntent = new Intent(context, MyService.class);
+        Intent startServiceIntent = new Intent(context, AlarmService.class);
         context.startService(startServiceIntent);
     }
 }

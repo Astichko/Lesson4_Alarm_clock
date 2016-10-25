@@ -16,7 +16,7 @@ import com.example.boss.lesson4_alarm_clock.Alarm;
 import com.example.boss.lesson4_alarm_clock.R;
 import com.example.boss.lesson4_alarm_clock.provider.Constants;
 import com.example.boss.lesson4_alarm_clock.provider.DataAlarmProvider;
-import com.example.boss.lesson4_alarm_clock.service.MyService;
+import com.example.boss.lesson4_alarm_clock.service.AlarmService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -133,8 +133,8 @@ public class CreateAlarmActivity extends AppCompatActivity implements View.OnCli
             DataAlarmProvider.getArray().add(alarm);
             DataAlarmProvider.saveArray(this);
         }
-        if (!isServiceRunning(MyService.class)) {
-            startService(new Intent(this, MyService.class));
+        if (!isServiceRunning(AlarmService.class)) {
+            startService(new Intent(this, AlarmService.class));
         }
     }
 

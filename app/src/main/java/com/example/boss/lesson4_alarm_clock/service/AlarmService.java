@@ -11,13 +11,13 @@ import com.example.boss.lesson4_alarm_clock.provider.DataAlarmProvider;
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
-public class MyService extends IntentService {
+public class AlarmService extends IntentService {
     Calendar calendar;
     boolean isAnyAlarmOn;
     public boolean isFirstTimeAlignment = true;
 
-    public MyService() {
-        super("MyService");
+    public AlarmService() {
+        super("AlarmService");
     }
 
     public void onCreate() {
